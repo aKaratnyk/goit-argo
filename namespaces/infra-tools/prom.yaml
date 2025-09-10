@@ -9,20 +9,40 @@ spec:
   source:
     repoURL: "https://prometheus-community.github.io/helm-charts"
     chart: kube-prometheus-stack
-    targetRevision: 71.2.0
+    targetRevision: 75.16.1
     helm:
       valuesObject:
-        crds:
-          enabled: true
-        grafana:
-          ingress:
-            enabled: false
+        defaultRules:
+          create: false   # без купи дефолтних алертів
         prometheus:
           ingress:
             enabled: false
+          prometheusSpec:
+            resources:
+              requests:
+                cpu: 200m
+                memory: 512Mi
+              limits:
+                cpu: 500m
+                memory: 1Gi
         alertmanager:
-          enabled: false
-  project: default
+          enabled: false   # прибрали повністю
+        grafana:
+          ingress:
+            enabled: false
+          adminPassword: prom-operator
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+        kube-state-metrics:
+          enabled: true   # залишаємо, бо потрібен для метрик k8s
+        prometheus-node-exporter:
+          enabled: true   # щоб збирати CPU/Memory/FS з нод
+  project: cluster-addons
   syncPolicy:
     automated:
       prune: true
