@@ -14,6 +14,8 @@ spec:
       valuesObject:
         defaultRules:
           create: false   # без купи дефолтних алертів
+        crds:
+          enabled: true
         prometheus:
           ingress:
             enabled: false
