@@ -42,6 +42,9 @@ spec:
             enabled: false
             patch:
               enabled: false
+            certManager:
+              enabled: false
+            autoGenerateCert: false
         kube-state-metrics:
           prometheus:
             monitor:
