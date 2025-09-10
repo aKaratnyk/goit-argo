@@ -42,7 +42,7 @@ spec:
           enabled: true   # залишаємо, бо потрібен для метрик k8s
         prometheus-node-exporter:
           enabled: true   # щоб збирати CPU/Memory/FS з нод
-  project: cluster-addons
+  project: default
   syncPolicy:
     automated:
       prune: true
