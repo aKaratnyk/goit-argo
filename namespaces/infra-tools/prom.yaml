@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-operator
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: infra-tools
+    server: "https://kubernetes.default.svc"
+  source:
+    repoURL: "https://prometheus-community.github.io/helm-charts"
+    targetRevision: 75.16.1
+    chart: kube-prometheus-stack
+    helm:
+      valuesObject:
+        nameOverride: "prometheus-operator"
+        defaultRules:
+          create: false
+        prometheus:
+          ingress:
+            enabled: false
+          thanosService:
+            enabled: false
+          thanosIngress:
+            enabled: false
+          prometheusSpec:
+            retention: 2d   # буде писати тільки в emptyDir (тимчасове сховище)
+        alertmanager:
+          enabled: true
+          ingress:
+            enabled: false
+          alertmanagerSpec:
+            forceEnableClusterMode: true
+            configSecret: alertmanager-secret
+        grafana:
+          ingress:
+            enabled: false
+          adminPassword: prom-operator
+        prometheusOperator:
+          admissionWebhooks:
+            enabled: false
+            patch:
+              enabled: false
+        kube-state-metrics:
+          prometheus:
+            monitor:
+              enabled: true
+        prometheus-node-exporter: {}
+  project: default
+  syncPolicy:
+    syncOptions:
+    - Replace=true
+    - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
