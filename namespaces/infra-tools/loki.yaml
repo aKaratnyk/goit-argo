@@ -18,10 +18,11 @@ spec:
             operator: Equal
             value: infrastructure
             effect: NoSchedule
-        config:
-          table_manager:
-            retention_deletes_enabled: true
-            retention_period: 72h
+        loki:
+          config: |
+            table_manager:
+              retention_deletes_enabled: true
+              retention_period: 72h
   syncPolicy:
     automated:
       prune: true
