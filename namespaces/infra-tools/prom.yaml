@@ -12,6 +12,8 @@ spec:
     targetRevision: 71.2.0
     helm:
       valuesObject:
+        crds:
+          enabled: true
         grafana:
           ingress:
             enabled: false
