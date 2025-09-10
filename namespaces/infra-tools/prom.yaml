@@ -16,7 +16,7 @@ spec:
       valuesObject:
         nameOverride: "prometheus-operator"
         defaultRules:
-          create: false
+          create: true
         prometheus:
           ingress:
             enabled: false
@@ -25,6 +25,8 @@ spec:
           thanosIngress:
             enabled: false
           prometheusSpec:
+            serviceMonitorSelector: {}
+            serviceMonitorSelectorNilUsesHelmValues: false
             retention: 2d   # буде писати тільки в emptyDir (тимчасове сховище)
         kubelet:
           enabled: true
