@@ -45,6 +45,8 @@ spec:
             certManager:
               enabled: false
             autoGenerateCert: false
+          tls:
+            enabled: false
         kube-state-metrics:
           prometheus:
             monitor:
