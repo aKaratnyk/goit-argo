@@ -2,7 +2,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: monitoring
+  namespace: infra-tools
 spec:
+  project: default
   destination:
     namespace: infra-tools
     server: "https://kubernetes.default.svc"
@@ -15,7 +17,7 @@ spec:
         defaultRules:
           create: false   # без купи дефолтних алертів
         crds:
-          enabled: true
+          enabled: false  # CRD-и вже ставить інший App
         prometheus:
           ingress:
             enabled: false
@@ -41,10 +43,9 @@ spec:
               cpu: 500m
               memory: 512Mi
         kube-state-metrics:
-          enabled: true   # залишаємо, бо потрібен для метрик k8s
+          enabled: true   # потрібен для метрик Kubernetes
         prometheus-node-exporter:
-          enabled: true   # щоб збирати CPU/Memory/FS з нод
-  project: default
+          enabled: true   # збір CPU/Memory/FS з нод
   syncPolicy:
     automated:
       prune: true
