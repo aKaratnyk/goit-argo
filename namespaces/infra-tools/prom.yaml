@@ -26,6 +26,10 @@ spec:
             enabled: false
           prometheusSpec:
             retention: 2d   # буде писати тільки в emptyDir (тимчасове сховище)
+        kubelet:
+          enabled: true
+          serviceMonitor:
+            enabled: true
         alertmanager:
           enabled: true
           ingress:
