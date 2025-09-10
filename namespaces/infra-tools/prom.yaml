@@ -46,7 +46,9 @@ spec:
           prometheus:
             monitor:
               enabled: true
-        prometheus-node-exporter: {}
+        prometheus-node-exporter:
+          service:
+            port: 9200
   project: default
   syncPolicy:
     syncOptions:
