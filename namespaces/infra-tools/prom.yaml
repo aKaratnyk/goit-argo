@@ -17,6 +17,9 @@ spec:
         nameOverride: "prometheus-operator"
         defaultRules:
           create: false
+          rules:
+            cpu: true
+            memory: false
         prometheus:
           ingress:
             enabled: false
