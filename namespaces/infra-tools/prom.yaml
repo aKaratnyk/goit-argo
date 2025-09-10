@@ -46,28 +46,6 @@ spec:
           ingress:
             enabled: false
           adminPassword: prom-operator
-          dashboards:
-            default:
-              pod-cpu-usage.json: |
-                {
-                  "title": "Pod CPU Usage",
-                  "panels": [
-                    {
-                      "type": "graph",
-                      "title": "CPU usage (cores)",
-                      "targets": [
-                        {
-                          "expr": "sum by(container) (node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate5m{namespace=\"application\", pod=\"$pod\", container!=\"\"})",
-                          "legendFormat": "{{container}}"
-                        }
-                      ],
-                      "datasource": {
-                        "type": "prometheus",
-                        "uid": "prometheus"
-                      }
-                    }
-                  ]
-                }
         prometheusOperator:
           admissionWebhooks:
             enabled: false
