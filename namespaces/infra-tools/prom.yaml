@@ -47,12 +47,6 @@ spec:
           ingress:
             enabled: false
           adminPassword: prom-operator
-          additionalDataSources:
-            - name: Loki
-              type: loki
-              access: proxy
-              url: http://loki.infra-tools:3100
-              isDefault: false
         prometheusOperator:
           admissionWebhooks:
             enabled: false
