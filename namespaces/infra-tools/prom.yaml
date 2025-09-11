@@ -48,6 +48,11 @@ spec:
             enabled: false
           adminPassword: prom-operator
           additionalDataSources:
+            - name: Prometheus
+              type: prometheus
+              url: http://prometheus-operator-prometheus.infra-tools:9090
+              access: proxy
+              isDefault: true
             - name: Loki
               type: loki
               access: proxy
