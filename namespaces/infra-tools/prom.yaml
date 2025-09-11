@@ -35,6 +35,7 @@ spec:
           enabled: true
           serviceMonitor:
             enabled: true
+            trackTimestampsStaleness: false
         alertmanager:
           enabled: true
           ingress:
