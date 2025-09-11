@@ -27,6 +27,8 @@ spec:
               operator: Equal
               value: infrastructure
               effect: NoSchedule
+        test:
+          enabled: false  
   syncPolicy:
     automated:
       prune: true
