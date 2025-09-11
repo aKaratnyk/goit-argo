@@ -1,0 +1,53 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlflow
+  namespace: application   # ArgoCD інстальований тут
+spec:
+  project: default
+  source:
+    repoURL: https://community-charts.github.io/helm-charts
+    chart: mlflow
+    targetRevision: 0.7.3   # версію треба підібрати актуальну
+    helm:
+      releaseName: mlflow
+      valuesObject:
+        service:
+          type: ClusterIP
+          port: 5000
+
+        defaultArtifactRoot: file:///mlruns
+
+        auth:
+          enabled: false
+
+        postgresql:
+          enabled: true
+          primary:
+            persistence:
+              enabled: false
+          auth:
+            postgresPassword: mlflowpass
+            username: mlflow
+            password: mlflowpass
+            database: mlflowdb
+
+        minio:
+          enabled: true
+          persistence:
+            enabled: false
+
+        tracking:
+          persistence:
+            enabled: false
+  destination:
+    namespace: development
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true
+      - SkipDryRunOnMissingResource=true
