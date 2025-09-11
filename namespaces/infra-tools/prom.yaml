@@ -43,7 +43,10 @@ spec:
           alertmanagerSpec:
             forceEnableClusterMode: true
             configSecret: alertmanager-secret
-        grafana: 
+        grafana:
+        sidecar:
+          datasources:
+            enabled: true 
           ingress:
             enabled: false
           adminPassword: prom-operator
