@@ -43,7 +43,7 @@ spec:
           alertmanagerSpec:
             forceEnableClusterMode: true
             configSecret: alertmanager-secret
-        grafana:   # ⬅️ окремий блок, на одному рівні з alertmanager
+        grafana: 
           ingress:
             enabled: false
           adminPassword: prom-operator
