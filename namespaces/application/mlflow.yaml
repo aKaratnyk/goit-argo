@@ -41,7 +41,7 @@ spec:
           persistence:
             enabled: false
   destination:
-    namespace: development
+    namespace: application
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
