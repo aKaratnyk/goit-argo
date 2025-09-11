@@ -1,23 +1,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: torchserve-real
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  name: pytorch-observability
 spec:
   destination:
     namespace: application
     server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: https://intel.github.io/helm-charts
-    chart: torchserve
-    targetRevision: 0.1.0
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: pytorch
+    targetRevision: 4.3.31  # актуальна версія
     helm:
       valuesObject:
+        # Основні налаштування
         image:
-          repository: pytorch/torchserve
-          tag: 0.8.2
+          repository: docker.io/bitnami/pytorch
+          tag: 2.3.1-debian-12-r10
+        service:
+          type: ClusterIP
+          port: 8888
+        persistence:
+          enabled: false
+        jupyterPassword: "ml-demo"
         resources:
           limits:
             cpu: 200m
@@ -25,16 +30,29 @@ spec:
           requests:
             cpu: 100m
             memory: 256Mi
+
+        # Метрики та Prometheus
         metrics:
           enabled: true
+          service:
+            port: 8888
         serviceMonitor:
           enabled: true
+          interval: 30s
           additionalLabels:
             release: prometheus-operator
-        modelStore:
-          models:
-            densenet161.mar:
-              url: https://torchserve.pytorch.org/mar_files/densenet161.mar
+          
+        # Логи → Loki (через sidecar)
+        logs:
+          enabled: true
+          sidecar:
+            enabled: true
+            path: /opt/bitnami/pytorch/logs
+            logLevel: info
+            configs:
+              - name: pytorch-logs
+                file: /opt/bitnami/pytorch/logs/*.log
+
   syncPolicy:
     syncOptions:
       - Replace=true
