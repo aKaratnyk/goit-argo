@@ -46,7 +46,8 @@ spec:
         grafana:
           sidecar:
             datasources:
-              enabled: false 
+              enabled: true       # sidecar має працювати
+              defaultDatasourceEnabled: false 
           ingress:
             enabled: false
           adminPassword: prom-operator
