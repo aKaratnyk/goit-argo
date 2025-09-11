@@ -43,21 +43,21 @@ spec:
           alertmanagerSpec:
             forceEnableClusterMode: true
             configSecret: alertmanager-secret
-          grafana:
-            ingress:
-              enabled: false
-            adminPassword: prom-operator
-            additionalDataSources:
-              - name: Prometheus
-                type: prometheus
-                url: http://prometheus-operator-prometheus.infra-tools:9090
-                access: proxy
-                isDefault: true
-              - name: Loki
-                type: loki
-                url: http://loki.infra-tools:3100
-                access: proxy
-                isDefault: false
+        grafana:   # ⬅️ окремий блок, на одному рівні з alertmanager
+          ingress:
+            enabled: false
+          adminPassword: prom-operator
+          additionalDataSources:
+            - name: Prometheus
+              type: prometheus
+              url: http://prometheus-operator-prometheus.infra-tools:9090
+              access: proxy
+              isDefault: true
+            - name: Loki
+              type: loki
+              url: http://loki.infra-tools:3100
+              access: proxy
+              isDefault: false
         prometheusOperator:
           admissionWebhooks:
             enabled: false
