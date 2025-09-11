@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: torchserve
+  name: pytorch
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,36 +10,20 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: https://intel.github.io/helm-charts
-    chart: torchserve
-    targetRevision: 0.1.0
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: pytorch
+    targetRevision: 2.1.11   # актуальна версія на сьогодні
     helm:
       valuesObject:
         image:
-          repository: pytorch/torchserve
-          tag: 0.8.2
-
-        # 📦 модель для прикладу
-        modelStore:
-          models:
-            densenet161.mar:
-              url: https://torchserve.pytorch.org/mar_files/densenet161.mar
-
-        # 🚪 ingress вимикаємо (поки не треба)
-        ingress:
-          enabled: false
-
-        # 📊 метрики
-        metrics:
-          enabled: true
-
-        # 🛡️ ServiceMonitor для Prometheus
-        serviceMonitor:
-          enabled: true
-          additionalLabels:
-            release: prometheus-operator
-
-        # ⚙️ ресурси (зменшені для маленьких нод)
+          repository: docker.io/bitnami/pytorch
+          tag: 2.3.1-debian-12-r10   # легкий офіційний тег
+        service:
+          type: ClusterIP
+          port: 8888   # доступ до Jupyter Notebook
+        jupyterPassword: "ml-demo"   # простий пароль для входу
+        persistence:
+          enabled: false             # без PVC, легке розгортання
         resources:
           limits:
             cpu: 200m
