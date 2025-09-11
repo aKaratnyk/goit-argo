@@ -13,7 +13,7 @@ spec:
     targetRevision: 5.41.3
     helm:
       valuesObject:
-        mode: singleBinary  
+        deploymentMode: SingleBinary  
         tolerations:
           - key: usage
             operator: Equal
