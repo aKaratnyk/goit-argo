@@ -33,6 +33,9 @@ spec:
           additionalLabels:
             release: prometheus-operator
   syncPolicy:
+    syncOptions:
+    - Replace=true
+    - ServerSideApply=true
     automated:
       prune: true
       selfHeal: true
