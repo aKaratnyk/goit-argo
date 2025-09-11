@@ -36,6 +36,9 @@ spec:
             cpu: 100m
             memory: 256Mi
   syncPolicy:
+    syncOptions:
+    - Replace=true
+    - ServerSideApply=true
     automated:
       prune: true
       selfHeal: true
