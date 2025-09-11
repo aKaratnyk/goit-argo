@@ -5,39 +5,28 @@ metadata:
 spec:
   destination:
     namespace: infra-tools
-    server: "https://kubernetes.default.svc"
+    server: https://kubernetes.default.svc
   project: default
   source:
     repoURL: https://grafana.github.io/helm-charts
-    chart: loki
-    targetRevision: 5.41.3
+    chart: loki-stack
+    targetRevision: 2.9.10
     helm:
       valuesObject:
-        deploymentMode: SingleBinary  
-        tolerations:
-          - key: usage
-            operator: Equal
-            value: infrastructure
-            effect: NoSchedule
+        grafana:
+          enabled: false   # Grafana вже є з kube-prometheus-stack
+        prometheus:
+          enabled: false   # Prometheus теж є
         loki:
           persistence:
-            enabled: false  
-          config: |
-            table_manager:
-              retention_deletes_enabled: true
-              retention_period: 72h
-        singleBinary:
-          persistence:
-            enabled: false
-        backend:
-          persistence:
-            enabled: false
-        write:
-          persistence:
-            enabled: false
-        read:
-          persistence:
-            enabled: false
+            enabled: false  # не зберігаємо логи (тільки в пам'яті)
+        promtail:
+          enabled: true    # це агент, який збирає логи з нод/подів
+          tolerations:
+            - key: usage
+              operator: Equal
+              value: infrastructure
+              effect: NoSchedule
   syncPolicy:
     automated:
       prune: true
