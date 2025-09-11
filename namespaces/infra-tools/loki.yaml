@@ -15,6 +15,9 @@ spec:
       valuesObject:
         grafana:
           enabled: false   # Grafana вже є з kube-prometheus-stack
+          sidecar:
+            datasources:
+              enabled: false  
         prometheus:
           enabled: false   # Prometheus теж є
         loki:
