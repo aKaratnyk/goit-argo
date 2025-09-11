@@ -4,9 +4,9 @@ metadata:
   name: torchserve
 spec:
   destination:
-    namespace: ml-inference
+    namespace: application
     server: https://kubernetes.default.svc
-  project: cluster-addons
+  project: default
   source:
     repoURL: https://pytorch.github.io/serve/
     chart: torchserve
