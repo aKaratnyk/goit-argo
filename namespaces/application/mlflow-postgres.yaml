@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: application
     server: https://kubernetes.default.svc
-  project: mlops
+  project: default
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: postgresql
