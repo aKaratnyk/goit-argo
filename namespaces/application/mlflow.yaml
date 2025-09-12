@@ -19,16 +19,14 @@ spec:
         auth:
           enabled: false
 
+        # Використовуємо зовнішній Postgres (розгорнутий окремо)
         postgresql:
-          enabled: true
-          primary:
-            persistence:
-              enabled: false
-          auth:
-            postgresPassword: mlflowpass
-            username: mlflow
-            password: mlflowpass
-            database: mlflowdb
+          enabled: false
+
+        # Підтягуємо секрет із MinIO + Postgres конфігами
+        extraEnvFrom:
+          - secretRef:
+              name: mlflow-secrets
 
   destination:
     namespace: application
