@@ -32,20 +32,19 @@ spec:
             serviceMonitorSelectorNilUsesHelmValues: false
             retention: 2d   # буде писати тільки в emptyDir (тимчасове сховище)
 
-            # ⚡ДОДАНО: ServiceMonitor для PushGateway
-            additionalServiceMonitors:
-              - name: prometheus-pushgateway
-                selector:
-                  matchLabels:
-                    app.kubernetes.io/name: prometheus-pushgateway
-                    app.kubernetes.io/instance: prometheus-pushgateway
-                namespaceSelector:
-                  matchNames:
-                    - infra-tools
-                endpoints:
-                  - port: http
-                    path: /metrics
-                    interval: 15s
+          additionalServiceMonitors:
+            - name: prometheus-pushgateway
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: prometheus-pushgateway
+                  app.kubernetes.io/instance: prometheus-pushgateway
+              namespaceSelector:
+                matchNames:
+                  - infra-tools
+              endpoints:
+                - port: http
+                  path: /metrics
+                  interval: 15s
         kubelet:
           enabled: true
           serviceMonitor:
