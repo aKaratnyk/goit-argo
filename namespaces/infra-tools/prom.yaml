@@ -38,6 +38,7 @@ spec:
                 selector:
                   matchLabels:
                     app.kubernetes.io/name: prometheus-pushgateway
+                    app.kubernetes.io/instance: prometheus-pushgateway
                 namespaceSelector:
                   matchNames:
                     - infra-tools
